@@ -47,8 +47,9 @@ class Server {
 
     public void start() throws IOException {
         serverSocket = new ServerSocket(8189);
-        System.out.print("Сервер запущен. В ожидании клиента...");
+        System.out.println("Сервер запущен. В ожидании клиента...");
         sock = serverSocket.accept();
+        System.out.println("Клиент подключен.");
         inReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
         writer = new PrintWriter(sock.getOutputStream(),true);
     }
