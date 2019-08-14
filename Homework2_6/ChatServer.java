@@ -40,10 +40,10 @@ public class ChatServer {
 }
 
 class Server {
-    ServerSocket serverSocket=null;
-    Socket sock=null;
-    PrintWriter writer=null;
-    BufferedReader reader=null, inReader=null;
+    ServerSocket serverSocket;
+    Socket sock;
+    PrintWriter writer;
+    BufferedReader reader, inReader;
 
     public void start() throws IOException {
         serverSocket = new ServerSocket(8189);
