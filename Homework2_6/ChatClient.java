@@ -30,10 +30,10 @@ public class ChatClient {
 }
 
 class Client {
-    Socket sock=null;
-    PrintWriter writer=null;
+    Socket sock;
+    PrintWriter writer;
     String clientMessage, serverMessage;
-    BufferedReader reader=null, inReader=null;
+    BufferedReader reader, inReader;
 
     public Client() throws IOException {
 
