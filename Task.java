@@ -11,17 +11,19 @@ import java.util.stream.Stream;
 public class Task {
     static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     static SecureRandom rnd = new SecureRandom();
-    static final Path path = Paths.get("C:/Users/Юля/Desktop/Tasks7");
+    static final Path path = Paths.get("C:/Users/jbondarenko/Desktop/Tasks7/");
     static Map<String, Integer> mapFiles=new TreeMap<>();
-    //C:/Users/jbondarenko/Desktop/Tasks7/
+    
     public static void main(String[] args) {
         File file = null;
-        for (int i = 0; i < 5; i++) {
-            file = new File("C:/Users/Юля/Desktop/Tasks7/" + i + "/" + (i + 1) + "/" + (i + 2) + "/" + (i + 3) + "/" + (i + 4));
+        Random random1 = new Random();
+        int count1 = random1.nextInt(21);
+        for (int i = 0; i < count1; i++) {
+            file = new File("C:/Users/jbondarenko/Desktop/Tasks7/" + i + "/" + (i + 1) + "/" + (i + 2) + "/" + (i + 3) + "/" + (i + 4));
             file.mkdirs();
         }
         try {
-            directory();
+            fileСreation();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,7 +38,7 @@ public class Task {
             System.out.println("Файл: " + entry.getKey() + " Количество символов в файле: "
                     + entry.getValue());
         }
-        /*List list = new ArrayList(mapFiles.entrySet());
+       /* List list = new ArrayList(mapFiles.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<Integer, Integer>>() {
             @Override
             public int compare(Map.Entry<Integer, Integer> a, Map.Entry<Integer, Integer> b) {
@@ -44,6 +46,7 @@ public class Task {
             }
         });
         System.out.println(list);*/
+
         try {
             Files.walkFileTree(path, new SimpleFileVisitor<Path>()
             {
@@ -83,12 +86,16 @@ public class Task {
         return sb.toString();
     }
 
-    static void directory() throws IOException {
-        try (Stream<Path> walk = Files.walk(Paths.get(path + "/"))) {
+    static void fileСreation() throws IOException {
+        try (Stream<Path> walk = Files.walk(path)) {
             walk.filter(Files::isDirectory)
                     .forEach(path -> {
                         try {
-                            Files.write(Paths.get( path+randomName(5) + ".txt"), randomString().getBytes());
+                            Random random = new Random();
+                            int count = random.nextInt(21);
+                            for(int i=0; i<count; i++) {
+                                Files.write(Paths.get(path + "/" + randomName(5) + ".txt"), randomString().getBytes());
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -105,7 +112,7 @@ public class Task {
                         service.execute(new Runnable() {
                             @Override
                             public void run() {
-                                System.out.println("Началась бработка файла " + (path.toFile()).getName() +" "+ Thread.currentThread().getName());
+                                System.out.println("Началась бработка файла " + path +" поток: "+ Thread.currentThread().getName());
                                 try (BufferedReader reader = new BufferedReader(new FileReader(path.toFile()))) {
                                     String lines;
                                     int line = 0;
@@ -113,7 +120,7 @@ public class Task {
                                         line = lines.length();
                                     }
                                     mapFiles.put((path.toFile()).getName(), line);
-                                    System.out.println("Обработка файла закончена " + (path.toFile()).getName() +" "+ Thread.currentThread().getName()  + ". Количество символов в файле: " + line);
+                                    System.out.println("Обработка файла закончена " + path +" поток: "+ Thread.currentThread().getName());
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
