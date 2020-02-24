@@ -12,14 +12,16 @@ public class Quay implements Runnable{
     @Override
     public void run() {
         try {
-             Thread.sleep(1000);
-            Ships ships=tunnel.get(product);
-            if (ships!=null){
-                while (ships.countCheck()){
-                    Thread.sleep(1000);
-                    ships.add(10);
+            while (true) {
+                Thread.sleep(1000);
+                Ships ships = tunnel.get(product);
+                if (ships != null) {
+                    while (ships.countCheck()) {
+                        Thread.sleep(1000);
+                        ships.add(10);
+                    }
+                    System.out.println("Корабль: " + ships.getName() + " загружен.");
                 }
-                System.out.println("Корабль: "+ships.getName()+" загружен.");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
